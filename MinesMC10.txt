@@ -1,10 +1,10 @@
-0cls:o=16479:p=16655:a=0.002:m=35:k=1:ifj>rthenr=j:print"record!":fori=1to999:next
-1b=-93:q=.95:g=o+b:h=42:d=16800:print@0,"use ijkl space":fori=1too/9:next:fori=1to320:pokeo+i,160:next
-2w=36:j=.:print@33,"    ooo  mines  ooo   (fc)":fori=0to31:pokeo-i,172:poked+i,172:next
-3print@0,"   :";9-f;"  ";"score:";j;"  hiscore:";r:ifpeek(p)=wthenj=j+4:iff>0thenf=f-1
+0cls:a=16384:o=16479:p=16655:m=35:k=1:b=-93:q=.95:g=o+b:h=106:w=36:j=.:ifj>rthenr=j:print"record!":fori=1to999:next
+1d=16800:print@0,"use ijkl space":fori=1too/9:next:cls:fori=1to416:pokeo+i,160:next:print@39,"ooo  MINES  ooo   (fc)"
+2pokea+44,13:pokea+45,9:pokea+46,14:pokea+47,5:pokea+48,19:fori=0to31:pokeo-i,255-32:poked+i,255-32:next
+3print@3,":";9-f;"  ";"score:";j;"  hi:";r:ifpeek(p)=wthenj=j+4:iff>0thenf=f-1
 4ifrnd(0)>qthenx=p-4+2*(int(rnd(0)*5))+64*((int(rnd(0)*3))-1):pokex,m
 5l=jand3:a$=inkey$:s=.:y=.:pokep,h:ifa$<>""thens=asc(a$):e=sand1:ifj>k*100-2thenk=k+1:f=0
-6c=s-75+e:ifsgn(c)=ctheny=1:pokep,m:p=p+c*(31*e+1):j=j+1:q=q-a
+6c=s-75+e:ifsgn(c)=ctheny=1:pokep,m:p=p+c*(31*e+1):j=j+1:q=q-0.0005
 7pokeg,w:g=o+b:if-ythenifl=3theng=o+1+int(rnd(0)*320):pokeg,90
 8ifs=32theniff<9thenpokep-1,160:pokep+1,160:pokep-32,160:pokep+32,160:f=f+1:pokep,160
 9on-((p<d andp>o)and(peek(p)<>m))goto3:f=.:pokep,h:print@1,"the end":fori=1too/9:next:goto0
