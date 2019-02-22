@@ -2,10 +2,10 @@
 1j=.:d=a+416:?@0,"use ijkl space":fori=1too/9:next:cls0:?@32,"        ooo  MINES  ooo   (fc)"
 2pokea+44,13:pokea+45,9:pokea+46,14:pokea+47,5:pokea+48,19:fori=0to31:pokeo-i,255-32:poked+i,255-32:next
 3print@0,"  $";9-f;"  ";"score:";j;"  hi:";r:ifpeek(p)=wthenj=j+4:iff>0thenf=f-1
-4pokep,255-64:ifrnd(0)>qthenx=p-4+2*(int(rnd(0)*5))+64*((int(rnd(0)*3))-1):pokex,m
+4pokep,255-64:ifrnd(0)>qthenx=p-6+2*rnd(5)-64*(rnd(3)-2):pokex,m
 5l=jand3:a$=inkey$:s=.:y=.:ifa$<>""thens=asc(a$):e=sand1:ifj>k*100-2thenk=k+1:f=0
 6c=s-75+e:pokep,h:ifsgn(c)=ctheny=1:pokep,m:p=p+c*(31*e+1):j=j+1:q=q-0.0005:sound39,1
-7pokeg,w:g=o+b::poke49151,0:if-ythenifl=3theng=o+1+int(rnd(0)*320):pokeg,36
+7pokeg,w:g=o+b::poke49151,0:if-ythenifl=3theng=o+rnd(320):pokeg,36
 8ifs=32theniff<9thenpoke49151,64:pokep-1,160:pokep+1,160:pokep-32,160:pokep+32,160:f=f+1:pokep,106-64
 9on-((p<d andp>o)and(peek(p)<>m))goto3:f=.:pokep,h:print@32,"the end":fori=1too/9:next:goto0
 
