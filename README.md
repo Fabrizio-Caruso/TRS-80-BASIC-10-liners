@@ -4,4 +4,4 @@
 A BASIC 10-liner for the TRS-80 MC-10 computer
  
 
-![Mines](MinesMC10.jpg)
+![Mines](MC-10/MinesMC10.jpg)
