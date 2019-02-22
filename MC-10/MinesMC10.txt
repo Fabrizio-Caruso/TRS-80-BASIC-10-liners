@@ -1,12 +1,12 @@
-0cls:a=16384:o=a+95:p=a+271:m=35:k=1:b=-93:q=.95:g=o+b:h=106:w=100:ifj>rthenr=j:?"record!":fori=1to999:next
-1j=.:d=a+416:?@0,"use ijkl space":fori=1too/9:next:cls0:?@32,"        ooo  MINES  ooo   (fc)"
-2pokea+44,13:pokea+45,9:pokea+46,14:pokea+47,5:pokea+48,19:fori=0to31:pokeo-i,255-32:poked+i,255-32:next
-3print@0,"  $";9-f;"  ";"score:";j;"  hi:";r:ifpeek(p)=wthenj=j+4:iff>0thenf=f-1
-4pokep,255-64:ifrnd(0)>qthenx=p-6+2*rnd(5)-64*(rnd(3)-2):pokex,m
-5l=jand3:a$=inkey$:s=.:y=.:ifa$<>""thens=asc(a$):e=sand1:ifj>k*100-2thenk=k+1:f=0
-6c=s-75+e:pokep,h:ifsgn(c)=ctheny=1:pokep,m:p=p+c*(31*e+1):j=j+1:q=q-0.0005:sound39,1
-7pokeg,w:g=o+b::poke49151,0:if-ythenifl=3theng=o+rnd(320):pokeg,36
-8ifs=32theniff<9thenpoke49151,64:pokep-1,160:pokep+1,160:pokep-32,160:pokep+32,160:f=f+1:pokep,106-64
-9on-((p<d andp>o)and(peek(p)<>m))goto3:f=.:pokep,h:print@32,"the end":fori=1too/9:next:goto0
+0CLS:A=16384:O=A+95:P=A+271:M=35:K=1:B=-93:Q=.98:G=O+B:H=106:W=100:IFJ>RTHENR=J:?"RECORD!":FORI=1TO999:NEXT
+1J=.:D=A+416:?@0,"USE IJKL SPACE":FORI=1TOO/9:NEXT:CLS0:?@32,"       OOO  MINES  OOO   (FC)"
+2POKEA+44,13:POKEA+45,9:POKEA+46,14:POKEA+47,5:POKEA+48,19:FORI=0TO31:POKEO-I,255-32:POKED+I,255-32:NEXT
+3PRINT@0,"  $";9-F;"  ";"SCORE:";J;"  HI:";R:IFPEEK(P)=WTHENJ=J+4:IFF>0THENF=F-1
+4POKEP,255-64:IFRND(0)>QTHENX=P-6+2*RND(5)-64*(RND(3)-2):POKEX,M
+5L=JAND3:A$=INKEY$:S=.:Y=.:IFA$<>""THENS=ASC(A$):E=SAND1:IFJ>K*100-2THENK=K+1:F=0
+6C=S-75+E:POKEP,H:IFSGN(C)=CTHENY=1:POKEP,M:P=P+C*(31*E+1):J=J+1:Q=Q-0.0005:SOUND39,1
+7POKEG,W:G=O+B::POKE49151,0:IF-YTHENIFL=3THENG=O+RND(320):POKEG,36
+8IFS=32THENIFF<9THENPOKE49151,64:POKEP-1,160:POKEP+1,160:POKEP-32,160:POKEP+32,160:F=F+1:POKEP,106-64
+9ON-((P<D ANDP>O)AND(PEEK(P)<>M))GOTO3:F=.:POKEP,H:PRINT@32,"THE END":FORI=1TOO/9:NEXT:GOTO0
 
 
