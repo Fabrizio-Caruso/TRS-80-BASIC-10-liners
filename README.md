@@ -1,5 +1,5 @@
-# TRS80-MC10-10-liners
-TRS80-MC10-10-liners
+# TRS-80-BASIC-10-liners
+TRS-80-BASIC-10-liners
 
 - MinesMC10
 
