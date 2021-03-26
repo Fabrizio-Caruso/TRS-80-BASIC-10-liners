@@ -1,0 +1,133 @@
+EXPANDED CODE (?->PRINT) 
+0FORI=0TO1STEP0:I=-(INKEY$<>""):NEXT:CLS0:A=16384:O=A+95:P=A+271:M=35:K=1:FORI=0TOM:POKEO+RND(384),M:NEXT:IFJ>RTHENR=J
+1X=500:B=49151:Q=.98:G=O-95:H=106:W=100:V=3:T=32:Z=64:N=160:J=.:D=A+480:PRINT@0,"USE IJKL <SPC>":IFINKEY$=""GOTO1
+2POKEA+45,13:POKEA+46,9:POKEA+47,14:POKEA+48,5:POKEA+49,19:POKEA+50,43:FORI=0TO31:POKEO-I,255-T:POKED+I,255-T:NEXT
+3PRINT@0,"$"9-F;"  "V" SCORE:"J" HI:"R:POKEO-90,H:IFPEEK(P)=WTHENSOUNDZ,1:J=J+9:F=F+(F>0)
+4POKEP,255-Z:IFRND(0)>Q AND P>O+T THENPOKEP-6+2*RND(5)-Z*(RND(3)-2),M
+5L=JAND3:A$=INKEY$:S=.:Y=.:IFA$<>""THENS=ASC(A$):E=SAND1:Q=Q-.0005
+6C=S-75+E:POKEP,H:IFSGN(C)=CTHENY=1:POKEP,M:P=P+C*31*E+C:J=J+1:SOUNDT,1:IFJ>=K*XTHENSOUNDN,2:POKEB,Z:K=K+1:F=0:V=V-(V<9)
+7V=-V*(P<D ANDP>O):POKEG,W:G=O-95:POKEB,0:IF-YTHENIFL=3THENG=O+RND(384):POKEG,36
+8IFS=TTHENIFF<9THENPOKEB,Z:POKEP-1,N:POKEP+1,N:POKEP-T,N:POKEP+T,N:F=F+1:POKEP,106-Z:IFP>=(D-T)ORP<=(O+T)GOTO2
+9ON-(V>0AND(PEEK(P)<>M))GOTO3:F=.:POKEP,H:V=V-1:SOUND1,2:ON-(V>0)GOTO3:PRINT@T,"END":FORI=0TOO/3:NEXT:GOTO0
+
+
+MAIN VARIABLES
+O top-right wall location
+D bottom-left wall location
+P player's position
+M main character (35)
+W mine bomb character (100)
+J score
+R hiscore
+F number of used mine bombs (mine bombs left = 9 - F)
+Q probability of not generating an extra mine nearby
+K counter for extra life bonus (next extra life = 500 x K)
+L modulo 4 counter for the generation of new mine bombs
+V number of left lives
+G position of the newly randomly generated mine bomb
+
+
+EXPLAINED CODE
+0
+// Wait for key press
+FORI=0TO1STEP0:I=-(INKEY$<>""):NEXT:
+
+// Clear screen and set color to black
+CLS0:
+
+// Initialize variables
+A=16384:O=A+95:P=A+271:M=35:K=1:
+
+// Initialize screen with random mines
+FORI=0TOM:POKEO+RND(384),M:NEXT:
+
+// Update record
+IFJ>RTHENR=J
+
+
+1
+// Initialize variables
+X=500:B=49151:Q=.98:G=O-95:H=106:W=100:V=3:T=32:Z=64:N=160:J=.:D=A+480:
+
+// Display instruction and wait for key press
+PRINT@0,"USE IJKL <SPC>":IFINKEY$=""GOTO1
+
+
+2
+// Display MINES+ in inverted colors
+POKEA+45,13:POKEA+46,9:POKEA+47,14:POKEA+48,5:POKEA+49,19:POKEA+50,43:
+
+// Display top and lower border
+FORI=0TO31:POKEO-I,255-T:POKED+I,255-T:NEXT
+
+
+3
+// Uddate score and display record
+PRINT@0,"$"9-F;"  "V" SCORE:"J" HI:"R:
+
+POKEO-90,H:
+
+// If player on a $, then produce sound, increase score by 9 (additional points after the +1 for the move) and 
+// increase available mine clearining bombs if not at 9 yet
+IFPEEK(P)=WTHENSOUNDZ,1:J=J+9:F=F+(F>0)
+
+
+4
+// Display player
+POKEP,255-Z:
+
+// if random condition is try and player position is not too close to the top, then display one random mine around the player
+IFRND(0)>Q AND P>O+T THENPOKEP-6+2*RND(5)-Z*(RND(3)-2),M
+
+
+5
+// L is mod 4
+L=JAND3:
+
+// Read input
+A$=INKEY$:S=.:Y=.:IFA$<>""THENS=ASC(A$):E=SAND1:
+
+// Increase random chance to generate nearby mines
+Q=Q-.0005
+
+
+6
+// Part of the IJKL input trick
+C=S-75+E:
+
+// Display player
+POKEP,H:
+
+// if a key among I, J, K, L is pressed than display mine at player's position, update player's position, produce a sound 
+IFSGN(C)=CTHENY=1:POKEP,M:P=P+C*31*E+C:J=J+1:SOUNDT,1:
+
+// If score reaches the next multiple of K=500, then a sound is produced, all mines are restored and an extra life is obtained
+IFJ>=K*XTHENSOUNDN,2:POKEB,Z:K=K+1:F=0:V=V-(V<9)
+
+
+7
+// All lives are lost if player is on the wall
+V=-V*(P<D ANDP>O):
+
+// Display new mine animation
+POKEG,W:G=O-95:
+
+POKEB,0:
+
+// If L is 3 and player has moved, than generate a new $ (mine bomb recharge)
+IF-YTHENIFL=3THENG=O+RND(384):POKEG,36
+
+
+8
+// If key pressed is the space bar and there is a mine bomb left, then clear the mines at north, south, east and west position
+// decrease available mine bombs, flash the screen and if the player was too close to the wall, go to line 2, i.e., redraw the walls
+IFS=TTHENIFF<9THENPOKEB,Z:POKEP-1,N:POKEP+1,N:POKEP-T,N:POKEP+T,N:F=F+1:POKEP,106-Z:IFP>=(D-T)ORP<=(O+T)GOTO2
+
+
+9
+// If player is not dead go back to line 3 (main game loop)
+ON-(V>0AND(PEEK(P)<>M))GOTO3:
+
+// Otherwise, display player, decrease the number of lives. If lives are left go to line 3.
+// Otherwise print "end", wait a pair of seconds and go back to 0
+F=.:POKEP,H:V=V-1:SOUND1,2:ON-(V>0)GOTO3:PRINT@T,"END":FORI=0TOO/3:NEXT:GOTO0
