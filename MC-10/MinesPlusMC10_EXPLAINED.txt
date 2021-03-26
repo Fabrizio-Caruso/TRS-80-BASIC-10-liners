@@ -1,22 +1,24 @@
 EXPANDED CODE (?->PRINT) 
-0FORI=0TO1STEP0:I=-(INKEY$<>""):NEXT:CLS0:A=16384:O=A+95:P=A+271:M=35:K=1:FORI=0TOM:POKEO+RND(384),M:NEXT:IFJ>RTHENR=J
-1X=500:B=49151:Q=.98:G=O-95:H=106:W=100:V=3:T=32:Z=64:N=160:J=.:D=A+480:PRINT@0,"USE IJKL <SPC>":IFINKEY$=""GOTO1
+
+0ON-((INKEY$="")AND(J>0))GOTO0:CLS0:A=16384:O=A+95:P=A+271:M=35:K=1:FORI=0TOM:POKEO+RND(384),M:NEXT:IFJ>RTHENR=J
+1X=500:B=49151:Q=.98:G=O-95:H=106:W=100:V=3:T=32:Z=64:N=160:J=.:D=A+480:U=.0005:PRINT@0,"USE IJKL <SPC>":IFINKEY$=""GOTO1
 2POKEA+45,13:POKEA+46,9:POKEA+47,14:POKEA+48,5:POKEA+49,19:POKEA+50,43:FORI=0TO31:POKEO-I,255-T:POKED+I,255-T:NEXT
 3PRINT@0,"$"9-F;"  "V" SCORE:"J" HI:"R:POKEO-90,H:IFPEEK(P)=WTHENSOUNDZ,1:J=J+9:F=F+(F>0)
-4POKEP,255-Z:IFRND(0)>Q AND P>O+T THENPOKEP-6+2*RND(5)-Z*(RND(3)-2),M
-5L=JAND3:A$=INKEY$:S=.:Y=.:IFA$<>""THENS=ASC(A$):E=SAND1:Q=Q-.0005
+4POKEP,191:IFRND(0)>Q AND P>O+T THENPOKEP-6+2*RND(5)-Z*(RND(3)-2),M
+5L=JAND3:A$=INKEY$:S=.:Y=.:IFA$<>""THENS=ASC(A$):E=SAND1:Q=Q-U
 6C=S-75+E:POKEP,H:IFSGN(C)=CTHENY=1:POKEP,M:P=P+C*31*E+C:J=J+1:SOUNDT,1:IFJ>=K*XTHENSOUNDN,2:POKEB,Z:K=K+1:F=0:V=V-(V<9)
 7V=-V*(P<D ANDP>O):POKEG,W:G=O-95:POKEB,0:IF-YTHENIFL=3THENG=O+RND(384):POKEG,36
-8IFS=TTHENIFF<9THENPOKEB,Z:POKEP-1,N:POKEP+1,N:POKEP-T,N:POKEP+T,N:F=F+1:POKEP,106-Z:IFP>=(D-T)ORP<=(O+T)GOTO2
-9ON-(V>0AND(PEEK(P)<>M))GOTO3:F=.:POKEP,H:V=V-1:SOUND1,2:ON-(V>0)GOTO3:PRINT@T,"END":FORI=0TOO/3:NEXT:GOTO0
+8IFS=TTHENIFF<9THENPOKEB,Z:POKEP-1,N:POKEP+1,N:POKEP-T,N:POKEP+T,N:F=F+1:POKEP,42:IFP>=(D-T)ORP<=(O+T)GOTO2
+9ON-(V>0AND(PEEK(P)<>M))GOTO3:F=.:POKEP,H:V=V-1:SOUND1,2:ON-(V>0)GOTO3:PRINT@Z,"            GAME OVER":FORI=-XTOX:NEXT:GOTO0
 
 
 MAIN VARIABLES
 O top-right wall location
 D bottom-left wall location
 P player's position
-M main character (35)
-W mine bomb character (100)
+H main character (106 = diamond)
+M mine character (35 = inverted #)
+W mine bomb character (100 = $)
 J score
 R hiscore
 F number of used mine bombs (mine bombs left = 9 - F)
@@ -25,15 +27,18 @@ K counter for extra life bonus (next extra life = 500 x K)
 L modulo 4 counter for the generation of new mine bombs
 V number of left lives
 G position of the newly randomly generated mine bomb
+B screen foreground register (49151)
+A video memory initial location (16384)
 
 
 EXPLAINED CODE
 0
-// Wait for key press
-FORI=0TO1STEP0:I=-(INKEY$<>""):NEXT:
-
 // Clear screen and set color to black
 CLS0:
+
+// Wait for key press if the game has just been restarted (J>0)
+ON-((INKEY$="")AND(J>0))GOTO0:CLS0:
+
 
 // Initialize variables
 A=16384:O=A+95:P=A+271:M=35:K=1:
@@ -73,8 +78,8 @@ IFPEEK(P)=WTHENSOUNDZ,1:J=J+9:F=F+(F>0)
 
 
 4
-// Display player
-POKEP,255-Z:
+// Shortly display player as a red rectangle to produce a flashing effect
+POKEP,191:
 
 // if random condition is try and player position is not too close to the top, then display one random mine around the player
 IFRND(0)>Q AND P>O+T THENPOKEP-6+2*RND(5)-Z*(RND(3)-2),M
@@ -85,14 +90,17 @@ IFRND(0)>Q AND P>O+T THENPOKEP-6+2*RND(5)-Z*(RND(3)-2),M
 L=JAND3:
 
 // Read input
-A$=INKEY$:S=.:Y=.:IFA$<>""THENS=ASC(A$):E=SAND1:
+A$=INKEY$:S=.:Y=.:IFA$<>""THENS=ASC(A$):
+
+// Part of the IJKL (see [*] below) input trick: Compute parity (vertical vs horizontal)
+E=SAND1:
 
 // Increase random chance to generate nearby mines
 Q=Q-.0005
 
 
 6
-// Part of the IJKL input trick
+// Part of the IJKL (see [*] below) input trick
 C=S-75+E:
 
 // Display player
@@ -101,8 +109,8 @@ POKEP,H:
 // if a key among I, J, K, L is pressed than display mine at player's position, update player's position, produce a sound 
 IFSGN(C)=CTHENY=1:POKEP,M:P=P+C*31*E+C:J=J+1:SOUNDT,1:
 
-// If score reaches the next multiple of K=500, then a sound is produced, all mines are restored and an extra life is obtained
-IFJ>=K*XTHENSOUNDN,2:POKEB,Z:K=K+1:F=0:V=V-(V<9)
+    // If score reaches the next multiple of K=500, then a sound is produced, all mines are restored and an extra life is obtained
+    IFJ>=K*XTHENSOUNDN,2:POKEB,Z:K=K+1:F=0:V=V-(V<9)
 
 
 7
@@ -120,8 +128,12 @@ IF-YTHENIFL=3THENG=O+RND(384):POKEG,36
 
 8
 // If key pressed is the space bar and there is a mine bomb left, then clear the mines at north, south, east and west position
-// decrease available mine bombs, flash the screen and if the player was too close to the wall, go to line 2, i.e., redraw the walls
-IFS=TTHENIFF<9THENPOKEB,Z:POKEP-1,N:POKEP+1,N:POKEP-T,N:POKEP+T,N:F=F+1:POKEP,106-Z:IFP>=(D-T)ORP<=(O+T)GOTO2
+// decrease available mine bombs, display player as an inverted diamond, flash the screen and 
+// if the player was too close to the wall, go to line 2, i.e., redraw the walls
+IFS=TTHENIFF<9THENPOKEB,Z:POKEP-1,N:POKEP+1,N:POKEP-T,N:POKEP+T,N:F=F+1:POKEP,42:
+        
+        // If the player was too close to the wall, go to line 2, i.e., redraw the walls
+        IFP>=(D-T)ORP<=(O+T)GOTO2
 
 
 9
@@ -130,4 +142,23 @@ ON-(V>0AND(PEEK(P)<>M))GOTO3:
 
 // Otherwise, display player, decrease the number of lives. If lives are left go to line 3.
 // Otherwise print "end", wait a pair of seconds and go back to 0
-F=.:POKEP,H:V=V-1:SOUND1,2:ON-(V>0)GOTO3:PRINT@T,"END":FORI=0TOO/3:NEXT:GOTO0
+F=.:POKEP,H:V=V-1:SOUND1,2:ON-(V>0)GOTO3:PRINT@Z,"            GAME OVER":FORI=-XTOX:NEXT:GOTO0
+
+
+
+[TRICK] [*]
+I have come up with this trick (by myself) in 2019. It may be a new trick.
+I do not use conditionals, nor precomputed offsets, nor Boolean expressions.
+I use an interpolating formula that computes the offset from the ASCII code of the pressed key.
+
+I exploit the special symmetry of the ASCII codes of the keys I J K L:
+- I and K have odd codes and a distance of 2 bytes
+- J and L have even codes and a distance of 2 bytes
+- I and K have odd ASCII codes
+- J and L have even ASCII codes
+So, given s=ASC(a$) with a$ either I or J or K or L, we update the position p with
+p=p+c*(31*e+1) 
+where
+- e=s and 1 -> parity of the code, i.e., vertical vs horizontal movement
+- c=s-75+e -> -1 for left/up vs +1 for right/down
+- 31*e+1 -> vertical vs horizontal offset absolute value, i.e., 1 vs 32
